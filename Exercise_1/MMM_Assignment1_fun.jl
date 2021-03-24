@@ -6,8 +6,9 @@ using Gurobi
 #using Plots
 #using Distributions
 
-include("MMM_Assignment1_model.jl")
 include("MMM_Assignment1_data.jl")
+include("MMM_Assignment1_model.jl")
+
 
 m, x = build_model()
 set_optimizer(m, Gurobi.Optimizer)

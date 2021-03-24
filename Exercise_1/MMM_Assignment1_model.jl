@@ -2,12 +2,14 @@
 
 function build_model(Val :: Int)
 
+  using JuMP
+
   include("MMM_Assignment1_data.jl")
 
   m = Model()
 
-  @variable(m, x[CI,I] >= 0, Int)
-  @variable(m, res[T] >= 0, Int)
+  @variable(m, x[CI,I] >= 0)
+  @variable(m, res[T] >= 0)
 
   cost=zeros(3)
   for ci in CI
@@ -18,8 +20,7 @@ function build_model(Val :: Int)
 
   const1 = @constraint(m, x[ci,i] <= 1000*max_capacity_all[ci,i] for i in I, ci in CI)
 
-  #const2 = @constraint(m, x[ci,i] >= countrydata[t,4,ci] for i in I, for ci in CI, for t in T)
-  const2 = @constraint(m, ((x[ci,i] >= countrydata[t,4,ci] for i in I) for ci in CI) for t in T)
+  const2 = @constraint(m,((x[ci,i] >= countrydata[t,4,ci] for i in I) for ci in CI) for t in T)
 
   #Swedish hydro produces 14 000 Mw
   const3 = @constraint(m, x[1,4] = 14_000)

@@ -29,6 +29,5 @@ function build_model(Val :: Int)
 
   const5 = @constraint(m, res[T_end] = 33*10^6 + inflow[T_end,2])
 
-
   return m, x
 end

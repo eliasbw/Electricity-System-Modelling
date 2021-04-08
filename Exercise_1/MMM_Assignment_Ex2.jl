@@ -1,4 +1,4 @@
-using JuMP
+using JuMPi
 #using teletype
 #using Cbc
 using Clp
@@ -20,7 +20,7 @@ optimize!(m)
 
 #The model is not feasible with a CO_2 limit.
 
-m, cost ,installed, power, res, emission = build_model_exercise2(6.87002224181645e8)
+m, cost ,installed, power, res, emission, batteryRes, batteryInflow = build_model_exercise2(6.87002224181645e8)
 emission_max_con = add_CO_2_con(m, 6.87002224181645e8)
 set_optimizer(m, Clp.Optimizer)
 optimize!(m)
@@ -31,17 +31,17 @@ println("The CO2-emissions with CO_2 constraint for Sweden is ", value.(emission
  " for Germany ", value.(emission[2]),
  " and for Denmark ", value.(emission[3]), " ton CO2")
 println("Total CO2-emission with CO_2 constraint: ", sum(value.(emission)), " ton CO2")
-
+I = 1:5
 power_values = zeros(length(CI), length(I), length(T))
 for ci in CI, i in I, t in T
     power_values[ci,i,t+1] = value.(power[ci,i,t])
 end
 
 emission_values = zeros(length(CI))
-I = 1:5
 bar(["SE", "DE", "DK"],[value(emission[ci]) for ci in CI], 
 title = "Emissions after CO_2 constraint",
 ylabel =  "CO_2 emissions in tons")
+
 using Printf
 countries = ["Sweden", "Germany", "Denmark"]
 for ci in CI

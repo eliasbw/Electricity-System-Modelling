@@ -17,7 +17,7 @@ SE_data=CSV.read("TimeSeries.csv", DataFrame, select=[4,5])
 DE_data=CSV.read("TimeSeries.csv", DataFrame, select=[2,3])
 DK_data=CSV.read("TimeSeries.csv", DataFrame, select=[6,7])
 
-hourly_load_factor = ones(8760,5,3)
+hourly_load_factor = ones(8760,7,3)
 hourly_load_factor[:,1:2,1].=SE_data #[dimensionless]
 hourly_load_factor[:,1:2,2].=DE_data
 hourly_load_factor[:,1:2,3].=DK_data

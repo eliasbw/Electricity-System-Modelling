@@ -10,7 +10,7 @@ include("MMM_Assignment1_data.jl")
 include("MMM_Assignment1_model.jl")
 
 
-m, cost,installed, power, res, emission = build_model_exercise1()
+m, cost, installed, power, res, emission = build_model_exercise1()
 set_optimizer(m, Clp.Optimizer)
 optimize!(m)
 
@@ -45,7 +45,7 @@ plot(0:168,[power_values[2, i, 1:169] for i in I],
     ylabel = "Power produced [MW]",
     xticks = 0:12:168)
 
-areaplot(0:168,[sum(power_values[2, i:4, 1:169], dims = 1) for i in I])
+areaplot(0:168,[power_values[2, i, 1:169] for i in I])
     
 
 

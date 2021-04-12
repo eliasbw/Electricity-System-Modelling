@@ -3,7 +3,7 @@ using JuMP
 include("MMM_Assignment1_data.jl")
 
 function build_model_exercise1()
-
+  I = 1:4
   m = Model()
 
   @variable(m, installed[CI,I] >= 0) #Installed power in country ci of energy type i in MW.
@@ -35,8 +35,8 @@ function build_model_exercise1()
   hydro_installed = @constraint(m, installed[1,4] == 14000)
 
   #Ensures the variable emission is equal to the CO_2 emissions from Gas in each country
-  emission_value_con = @constraint(m, [ci in CI], emission[ci] == sum(power[ci,3,:])/efficiencies[3])
-  
+  emission_value_con = @constraint(m, [ci in CI], emission[ci] == sum(power[ci,3,:])/efficiencies[3]*emission_factor[3])
+
   return m, cost, installed, power, res, emission 
 end
 
@@ -45,7 +45,7 @@ function add_CO_2_con(model, CO_2_Ex1)
    return emission_max_con
 end
 
-function build_model_exercise2(CO_2_Ex1)
+function build_model_exercise2()
   I = 1:5
   m = Model()
   @variable(m, installed[CI,I] >= 0) #Installed power in country ci of energy type i in MW.
@@ -79,7 +79,7 @@ function build_model_exercise2(CO_2_Ex1)
   hydro_installed = @constraint(m, installed[1,4] == 14000)
 
   #Ensures the variable emission is equal to the CO_2 emissions from Gas in each country
-  emission_value_con = @constraint(m, [ci in CI], emission[ci] == sum(power[ci,3,:])/efficiencies[3])
+  emission_value_con = @constraint(m, [ci in CI], emission[ci] == sum(power[ci,3,:])/efficiencies[3]*emission_factor[3])
   
   battery_con = @constraint(m, [ci in CI, t in T], -power[ci, 5, t] + batteryInflow[ci,t]*efficiencies[5] == batteryRes[ci, t+1] - batteryRes[ci, t])
   battery_start_stop_con = @constraint(m, [ci in CI], batteryRes[ci,0] == batteryRes[ci, T_end+1])
@@ -88,8 +88,8 @@ function build_model_exercise2(CO_2_Ex1)
   return m, cost, installed, power, res, emission, batteryRes, batteryInflow
 end
 
-function build_model_exercise3(CO_2_Ex1)
-  I = 1:6
+function build_model_exercise34(;I = 1:6)
+  
   m = Model()
   @variable(m, installed[CI,I] >= 0) #Installed power in country ci of energy type i in MW.
   @variable(m, power[CI,I,T] >= 0) #Power output in country ci from energy source i at time t in MW.
@@ -128,7 +128,7 @@ function build_model_exercise3(CO_2_Ex1)
   hydro_installed = @constraint(m, installed[1,4] == 14000)
 
   #Ensures the variable emission is equal to the CO_2 emissions from Gas in each country
-  emission_value_con = @constraint(m, [ci in CI], emission[ci] == sum(power[ci,3,:])/efficiencies[3])
+  emission_value_con = @constraint(m, [ci in CI], emission[ci] == sum(power[ci,3,:])/efficiencies[3]*emission_factor[3])
   
   battery_con = @constraint(m, [ci in CI, t in T], -power[ci, 5, t] + batteryInflow[ci,t]*efficiencies[5] == batteryRes[ci, t+1] - batteryRes[ci, t])
   battery_start_stop_con = @constraint(m, [ci in CI], batteryRes[ci,0] == batteryRes[ci, T_end+1])

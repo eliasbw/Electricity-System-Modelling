@@ -34,9 +34,10 @@ load_all[:,3].= load_DK[:,1]
 #hydro inflow
 inflow = CSV.read("TimeSeries.csv", DataFrame, select=[11])
 
-max_capacity_SE = [280 75 Inf 14 Inf Inf Inf] #wind, pv, gas, hydro, batteries, transmission, nuclear in [GW]
-max_capacity_DK = [90 60 Inf 0 Inf Inf Inf]
-max_capacity_DE = [180 460 Inf 0 Inf Inf Inf]
+my_inf = 1e10
+max_capacity_SE = [280 75 my_inf 14 my_inf my_inf my_inf] #wind, pv, gas, hydro, batteries, transmission, nuclear in [GW]
+max_capacity_DK = [90 60 my_inf 0 my_inf my_inf my_inf]
+max_capacity_DE = [180 460 my_inf 0 my_inf my_inf my_inf]
 
 max_capacity_all = [max_capacity_SE;
                     max_capacity_DE;

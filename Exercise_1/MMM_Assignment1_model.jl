@@ -104,8 +104,8 @@ function build_model_exercise34(;I = 1:6)
   
 
   cost = @objective(m,Min, 
-    sum([installed[country,i]*1000*annualized_costs[i] for country in CI, i in 1:5])
-    + sum(installed[country,6]*1000*annualized_costs[6]/2 for country in CI) #Only count the invested cost once.
+    sum([installed[country,i]*1000*annualized_costs[i] for country in CI, i in I])
+    - sum(installed[country,6]*1000*annualized_costs[6]/2 for country in CI) #Only count the invested cost once.
     + sum([power[country,i,t]*variable_costs[i] for country in CI,i in I, t in T])
       # MW * 1h * Euro/MWh  =?= Euro
     + sum([power[country,i,t]*fuel_costs[i]/efficiencies[i] for country in CI, i in I, t in T]))

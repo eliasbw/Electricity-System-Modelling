@@ -30,30 +30,26 @@ end
 
 emission_values = zeros(length(CI))
 
-bar(["SE", "DE", "DK"],[value(emission[ci]) for ci in CI], 
-title = "Emissions exercise 1",
+emissionsFig = bar(["SE", "DE", "DK"],[value(emission[ci]) for ci in CI], legend = false,
+title = "Emissions (Ex1)", size = (750,500), dpi = 2000, ytickfontsize = 12, xtickfontsize = 12, yguidefontsize = 14,
 ylabel =  "CO_2 emissions in tons")
-yearlyProductionFig = bar(["SE", "DE", "DK"], [sum(power_values[ci,:,:]) for ci in CI], title = "Yearly production by country",
+savefig(emissionsFig, "Ex1_emissions_fig.png")
+yearlyProductionFig = bar(["SE", "DE", "DK"], [sum(power_values[ci,:,:]) for ci in CI], title = "Yearly production by country (Ex1)",
     ylabel = "Power produced [GW]", legend = false, size = (750,500), dpi = 2000, ytickfontsize = 12, xtickfontsize = 12, yguidefontsize = 14)
 savefig(yearlyProductionFig, "Ex1_yearly_production_fig.png")
 using Printf
 countries = ["Sweden", "Germany", "Denmark"]
-
+countryTag = [" SE", " DE", " DK"]
+capacityFig = bar(size = (1250,500), dpi = 2000,left_margin = 15mm, title = "Energy sources per country (Ex1)")
 for ci in CI
-    capacityFig = bar(["Wind", "PV", "Gas", "Hydro"] ,[value(installed[ci, i]) for i in I], 
-    title = @sprintf("Energy sources in %s (Ex1)", countries[ci]),
-    ylabel = "Installed capacity [MW]", legend = false,
-    left_margin = 0mm, size = (750,500), dpi = 2000, ytickfontsize = 12, xtickfontsize = 12, yguidefontsize = 14)
-    savefig(capacityFig, @sprintf("Ex1_capacity_fig_%S.png", countries[ci]))
+    bar!(capacityFig,["Wind"*countryTag[ci], "PV"*countryTag[ci], "Gas"*countryTag[ci], "Hydro"*countryTag[ci]] ,[value(installed[ci, i]) for i in I], 
+    ylabel = "Installed capacity [MW]", labels = countryTag[ci], legendfontsize = 25, size = (1250,500),
+    ytickfontsize = 12, xtickfontsize = 8, yguidefontsize = 11)
+    
 end
+capacityFig
+savefig(capacityFig, "Ex1_capacity_fig.png")
 
-plot(0:168,[power_values[2, i, 1:169] for i in I], 
-    labels = ["Wind" "PV" "Gas" "Hydro"], 
-    title = "Energy produced in Germany during first week (Ex1)",
-    ylabel = "Power produced [MW]",
-    xticks = 0:12:168,
-    left_margin = -25mm,
-    legend =:right)
 
 #Courtesy of https://discourse.julialang.org/t/how-to-plot-a-simple-stacked-area-chart/21351/2
 @userplot StackedArea

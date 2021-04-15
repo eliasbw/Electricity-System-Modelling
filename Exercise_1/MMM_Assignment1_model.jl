@@ -81,7 +81,9 @@ function build_model_exercise2()
   #Ensures the variable emission is equal to the CO_2 emissions from Gas in each country
   emission_value_con = @constraint(m, [ci in CI], emission[ci] == sum(power[ci,3,:])/efficiencies[3]*emission_factor[3])
   
-  battery_con = @constraint(m, [ci in CI, t in T], -power[ci, 5, t] + batteryInflow[ci,t]*efficiencies[5] == batteryRes[ci, t+1] - batteryRes[ci, t])
+  battery_con = @constraint(m, [ci in CI, t in T], -power[ci, 5, t]/efficiencies[5] + batteryInflow[ci,t] == batteryRes[ci, t+1] - batteryRes[ci, t])
+  #battery_con = @constraint(m, [ci in CI, t in T], batteryRes[ci, t] <= batteryRes[ci, t>1 ? t-1 : T_end] + batteryInflow[ci,t]*efficiencies[5] - power[ci,5,t])
+  #StorageLevel[r, h] <= StorageLevel[r, h>1 ? h-1 : length(HOUR)] + Charging[r, h] - Electricity[r, :Batteries, h]/eta[:Batteries]
   battery_start_stop_con = @constraint(m, [ci in CI], batteryRes[ci,0] == batteryRes[ci, T_end+1])
   battery_res_max_con = @constraint(m, [ci in CI, t in T], batteryRes[ci, t] <= installed[ci,5])
 

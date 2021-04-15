@@ -6,6 +6,7 @@ using Gurobi
 #using SparseArrays
 using Plots
 using LinearAlgebra
+using Statistics
 plotlyjs()
 #using Distributions
 

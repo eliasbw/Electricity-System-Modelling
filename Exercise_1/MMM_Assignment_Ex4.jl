@@ -35,7 +35,7 @@ ylabel =  "CO_2 emissions in tons")
 savefig(emissionsFig, "Ex4_emissions_fig.png")
 
 
-yearlyProductionFig = bar(["SE", "DE", "DK"], [sum(power_values[ci,:,:]) for ci in CI], title = "Yearly production by country (Ex4)",
+yearlyProductionFig = bar(["SE", "DE", "DK"], [sum(sum(power_values[ci,i,:] for i in [1,2,3,4,7])) for ci in CI], title = "Yearly production by country (Ex4)",
     ylabel = "Power produced [GW]", legend = false, size = (750,500), dpi = 2000, ytickfontsize = 12, xtickfontsize = 12, yguidefontsize = 14)
 savefig(yearlyProductionFig, "Ex4_yearly_production_fig.png")
 

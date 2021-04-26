@@ -1,13 +1,9 @@
 using JuMP
-#using teletype
-#using Cbc
 using Clp
 using Gurobi
-#using SparseArrays
 using Plots
 using LinearAlgebra
 plotlyjs()
-#using Distributions
 
 include("MMM_Assignment1_data.jl")
 include("MMM_Assignment1_model.jl")

@@ -4,6 +4,7 @@ using Gurobi
 using Plots
 using Plots.PlotMeasures
 using LinearAlgebra
+using Statistics
 plotlyjs()
 
 include("MMM_Assignment1_data.jl")

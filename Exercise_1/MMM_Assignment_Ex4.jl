@@ -73,7 +73,8 @@ fig = stackedarea!(0:168, [power_values[2, i, t] for t in 1:169, i in I], alpha 
             ytickfontsize = 11,
             xticks = 0:12:168,
             xguidefontsize = 14,
-            yguidefontsize  = 14)
+            yguidefontsize  = 14,
+            ylim = [0, 1.7e5])
 fig = plot!(0:168, mean(load_all[1:169,2])*ones(169), linewidth = 3, color = :red, label = "Mean load")
 fig = plot!(0:168, load_all[1:169,2], linewidth = 3, color = :orange, label = "Load")
 
